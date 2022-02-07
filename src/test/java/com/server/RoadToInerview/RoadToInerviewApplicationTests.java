@@ -8,6 +8,7 @@ class RoadToInerviewApplicationTests {
 
 	@Test
 	void contextLoads() {
+		System.out.println("first test");
 	}
 
 }
