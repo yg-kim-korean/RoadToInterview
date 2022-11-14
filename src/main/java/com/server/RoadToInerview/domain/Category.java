@@ -16,13 +16,12 @@ public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     private String category;
 
-    private int category_id;
+    private Integer category_id;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(foreignKey = @ForeignKey(name="id"))
-    private int users_id;
+    @ManyToOne(targetEntity =  Users.class,fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Integer users_id;
 }

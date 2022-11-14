@@ -18,15 +18,14 @@ public class Questions {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     private String title;
 
     private String description;
 
-    private int limit;
+    private Integer limit_time;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(foreignKey = @ForeignKey(name="id"))
-    private int interviews_id;
+    @ManyToOne(targetEntity =  Interviews.class,fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Integer interviews_id;
 }
