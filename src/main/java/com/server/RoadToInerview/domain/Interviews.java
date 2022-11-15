@@ -16,7 +16,7 @@ import java.util.Set;
 @Builder
 @Table
 @Entity
-public class Interviews {
+public class Interviews extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

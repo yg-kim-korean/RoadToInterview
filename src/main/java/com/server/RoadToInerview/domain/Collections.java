@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Builder
 @Entity
 @Table
-public class Collections {
+public class Collections extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
