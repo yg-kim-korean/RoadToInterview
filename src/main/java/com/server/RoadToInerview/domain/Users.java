@@ -1,12 +1,8 @@
 package com.server.RoadToInerview.domain;
 
+import lombok.*;
+
 import javax.persistence.*;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +12,9 @@ import java.util.List;
 @Builder
 @Table
 @Entity
+@EntityListeners(value = EntityListeners.class)
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 public class Users extends BaseEntity{
 
     @Id
@@ -37,15 +36,15 @@ public class Users extends BaseEntity{
 
     private String src;
 
-    @Builder.Default
+    @ToString.Exclude
     @OneToMany(mappedBy = "users_id",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Category> categories = new ArrayList<>();
 
-    @Builder.Default
+    @ToString.Exclude
     @OneToMany(mappedBy = "users_id",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Interviews> interviews = new ArrayList<>();
 
-    @Builder.Default
+    @ToString.Exclude
     @OneToMany(mappedBy = "users_id",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Collections> collections = new ArrayList<>();
 
