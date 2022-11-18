@@ -30,9 +30,18 @@ public class UsersService {
 
     }
     @Transactional
-    public void like(Long id){
+    public Users login(String email, String password){
 
-        usersRepository.findById(id);
+        Users users = usersRepository.findByEmailAndPassword(email,password);
+        if (!Objects.isNull(users)){
+            return users;
+        }
+        return null;
+    }
 
+    @Transactional
+    public Boolean remove(Long id){
+        usersRepository.deleteById(id);
+        return true;
     }
 }

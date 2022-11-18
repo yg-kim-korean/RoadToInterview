@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Objects;
+
 @SpringBootTest
 public class UserServiceTest {
     @Autowired
@@ -29,6 +31,16 @@ public class UserServiceTest {
         }
         else{
             System.out.println("실패");
+        }
+    }
+    @Test
+    void userLoginTest(){
+        String email = "kyg0752@naver.com";
+        String password = "1234";
+        Users users = usersService.login(email,password);
+        System.out.println(users);
+        if (!Objects.isNull(users)){
+            System.out.println("asad");
         }
     }
 }

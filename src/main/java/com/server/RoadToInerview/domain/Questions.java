@@ -1,12 +1,8 @@
 package com.server.RoadToInerview.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -14,6 +10,9 @@ import java.time.LocalDateTime;
 @Builder
 @Entity
 @Table
+@EntityListeners(value = EntityListeners.class)
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 public class Questions extends BaseEntity{
 
     @Id

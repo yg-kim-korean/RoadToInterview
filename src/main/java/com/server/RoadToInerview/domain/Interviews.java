@@ -1,14 +1,10 @@
 package com.server.RoadToInerview.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -16,6 +12,9 @@ import java.util.Set;
 @Builder
 @Table
 @Entity
+@EntityListeners(value = EntityListeners.class)
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 public class Interviews extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

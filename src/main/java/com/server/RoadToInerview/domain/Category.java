@@ -1,8 +1,5 @@
 package com.server.RoadToInerview.domain;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -12,6 +9,9 @@ import javax.persistence.*;
 @Builder
 @Entity
 @Table
+@EntityListeners(value = EntityListeners.class)
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 public class Category extends BaseEntity{
 
     @Id
