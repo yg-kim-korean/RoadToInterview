@@ -5,10 +5,10 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.server.RoadToInerview.domain.Users;
 import com.server.RoadToInerview.repository.UsersRepository;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+//import io.jsonwebtoken.Claims;
+//import io.jsonwebtoken.Jws;
+//import io.jsonwebtoken.Jwts;
+//import io.jsonwebtoken.SignatureAlgorithm;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,20 +59,20 @@ public class UserServiceTest {
     @Test
     void test_1(){
         byte[] SEC_KEY = DatatypeConverter.parseBase64Binary("yognggeon"); //두가지 모두 맞춰서 시크릿 키를 만들기위해 사용
-        String okta_token = Jwts.builder().addClaims(
-                Map.of("name","kim","price","3000")
-        ).signWith(SignatureAlgorithm.HS256, SEC_KEY)
-                .setExpiration(new Date(System.currentTimeMillis()+1000)) //시간설정 지금부터 1초까지
-                .compact(); // jjwt 방식
+//        String okta_token = Jwts.builder().addClaims(
+//                Map.of("name","kim","price","3000")
+//        ).signWith(SignatureAlgorithm.HS256, SEC_KEY)
+//                .setExpiration(new Date(System.currentTimeMillis()+1000)) //시간설정 지금부터 1초까지
+//                .compact(); // jjwt 방식
         String oauth0_token = JWT.create().withClaim("name","yg")
                 .withClaim("price",3000)
                 .withExpiresAt(new Date(System.currentTimeMillis()+1000)) //시간설정 지금부터 1초까지
                 .sign(Algorithm.HMAC256(SEC_KEY)); // oauth 방식
 
-        Jws<Claims> tokenInfo = Jwts.parser().setSigningKey(SEC_KEY).parseClaimsJws(okta_token); //jjwt 방식
+//        Jws<Claims> tokenInfo = Jwts.parser().setSigningKey(SEC_KEY).parseClaimsJws(okta_token); //jjwt 방식
         DecodedJWT verified = JWT.require(Algorithm.HMAC256(SEC_KEY)).build().verify(oauth0_token); // oahth 방식
 
-        System.out.println(tokenInfo);
+//        System.out.println(tokenInfo);
         System.out.println(verified.getClaims());
 
         try{

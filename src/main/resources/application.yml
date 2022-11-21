@@ -19,6 +19,8 @@ spring:
     generate-ddl: true
     hibernate:
       ddl-auto: create
+data:
+  secret-key: roadtointerview
 
 server:
   port: 8070
