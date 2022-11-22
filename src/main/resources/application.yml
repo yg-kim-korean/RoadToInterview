@@ -21,6 +21,7 @@ spring:
       ddl-auto: create
 data:
   secret-key: roadtointerview
+  refresh-key: interviewtoroad
 
 server:
   port: 8070
