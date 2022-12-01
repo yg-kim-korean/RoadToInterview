@@ -1,14 +1,20 @@
 package com.server.RoadToInerview.controller;
 
 import com.server.RoadToInerview.domain.Users;
+import com.server.RoadToInerview.service.UsersService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@Controller
+@RequiredArgsConstructor
 public class UserController {
-    @Autowired
-    Users users;
+
+    private final UsersService usersService;
+
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/greeting")
     public String greeting(){
@@ -20,8 +26,9 @@ public class UserController {
         return "asd";
     }
     @PostMapping("/login")
-    public String login(){
-        return "asd";
+    public Users login(@RequestBody String email,@RequestBody String password){
+        Users users = usersService.login(email,password);
+        return users;
     }
     @GetMapping("/logout")
     public String logout(){
