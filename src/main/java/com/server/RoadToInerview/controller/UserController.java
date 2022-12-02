@@ -1,5 +1,6 @@
 package com.server.RoadToInerview.controller;
 
+import com.server.RoadToInerview.domain.UserLoginForm;
 import com.server.RoadToInerview.domain.Users;
 import com.server.RoadToInerview.service.UsersService;
 import lombok.RequiredArgsConstructor;
@@ -25,9 +26,11 @@ public class UserController {
     public String signup(){ // nickname/ email/ password/ src
         return "asd";
     }
+
     @PostMapping("/login")
-    public Users login(@RequestBody String email,@RequestBody String password){
-        Users users = usersService.login(email,password);
+    public Users login(@RequestBody UserLoginForm userLoginForm){
+        Users users = usersService.login(userLoginForm.getEmail(),userLoginForm.getPassword());
+//        System.out.println(users);
         return users;
     }
     @GetMapping("/logout")

@@ -40,6 +40,7 @@ public class JWTRequestTest extends WebIntegrationTest {
                 UserLoginForm.builder().email("kyg0752@naver.com").password("1234").build()
         );
         ResponseEntity<Users> resp1 = client.exchange(uri("/login"), HttpMethod.POST,body,Users.class);
+        System.out.println(resp1);
         System.out.println(resp1.getHeaders().get(HttpHeaders.AUTHORIZATION).get(0));
         System.out.println(resp1.getBody());
     }
