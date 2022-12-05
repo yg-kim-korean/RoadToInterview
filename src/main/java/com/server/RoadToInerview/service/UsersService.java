@@ -20,9 +20,7 @@ public class UsersService {
         String email = users.getEmail();
         Users check_user = usersRepository.findByEmail(email);
         if( Objects.isNull(check_user)){
-            System.out.println("여기");
             usersRepository.save(users);
-
         }
         else{
             return false;
@@ -33,7 +31,7 @@ public class UsersService {
     @Transactional
     public Users login(String email, String password){
 
-        Users users = usersRepository.findByEmailAndPassword(email,password);
+        Users users = usersRepository.findUserByEmailAndPassword(email,password);
         if (!Objects.isNull(users)){
             return users;
         }

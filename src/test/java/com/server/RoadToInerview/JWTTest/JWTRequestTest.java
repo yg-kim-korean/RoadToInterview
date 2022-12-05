@@ -41,7 +41,7 @@ public class JWTRequestTest extends WebIntegrationTest {
         );
         ResponseEntity<Users> resp1 = client.exchange(uri("/login"), HttpMethod.POST,body,Users.class);
         System.out.println(resp1);
-        System.out.println(resp1.getHeaders().get(HttpHeaders.AUTHORIZATION).get(0));
+//        System.out.println(resp1.getHeaders().get(HttpHeaders.AUTHORIZATION).get(0));
         System.out.println(resp1.getBody());
     }
 }

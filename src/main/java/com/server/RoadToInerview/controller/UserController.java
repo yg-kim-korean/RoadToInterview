@@ -5,10 +5,16 @@ import com.server.RoadToInerview.domain.Users;
 import com.server.RoadToInerview.service.UsersService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.nio.charset.Charset;
 
 @Controller
 @RequiredArgsConstructor
@@ -28,10 +34,12 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public Users login(@RequestBody UserLoginForm userLoginForm){
+    public ResponseEntity<Users> login(@RequestBody UserLoginForm userLoginForm){
         Users users = usersService.login(userLoginForm.getEmail(),userLoginForm.getPassword());
 //        System.out.println(users);
-        return users;
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        return new ResponseEntity<>(users, headers, HttpStatus.OK);
     }
     @GetMapping("/logout")
     public String logout(){
