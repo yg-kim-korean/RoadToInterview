@@ -16,16 +16,19 @@ public class UsersService {
     private UsersRepository usersRepository;
 
     @Transactional
-    public Boolean signup(Users users){
-        String email = users.getEmail();
-        Users check_user = usersRepository.findByEmail(email);
-        if( Objects.isNull(check_user)){
+    public String signup(Users users){
+        Users check_email = usersRepository.findByEmail(users.getEmail());
+        Users check_nickname = usersRepository.findByNickname(users.getNickname());
+        if( Objects.isNull(check_nickname) && Objects.isNull(check_email) ){
             usersRepository.save(users);
         }
-        else{
-            return false;
+        else if( !Objects.isNull(check_nickname)){
+            return "nickname";
         }
-        return true;
+        else if( !Objects.isNull(check_email)){
+            return "email";
+        }
+        return "created";
 
     }
     @Transactional

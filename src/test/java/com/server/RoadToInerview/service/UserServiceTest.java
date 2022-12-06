@@ -4,11 +4,6 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.server.RoadToInerview.domain.Users;
-import com.server.RoadToInerview.repository.UsersRepository;
-//import io.jsonwebtoken.Claims;
-//import io.jsonwebtoken.Jws;
-//import io.jsonwebtoken.Jwts;
-//import io.jsonwebtoken.SignatureAlgorithm;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.xml.bind.DatatypeConverter;
 import java.util.Date;
-import java.util.Map;
 import java.util.Objects;
 
 @SpringBootTest
@@ -36,7 +30,7 @@ public class UserServiceTest {
         users.setManager(true);
         users.setSrc("1234");
 
-        if(usersService.signup(users)){
+        if(usersService.signup(users) == "created"){
             System.out.println("성공");
         }
         else{
