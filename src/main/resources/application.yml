@@ -8,7 +8,7 @@ spring:
     url: jdbc:mysql://localhost:3306/roadtointerview?serverTimezone=UTC&characterEncoding=UTF-8
     username : yg
     password : 1234
-    initialization-mode : always
+#    initialization-mode : always
   jpa:
     database-platform: org.hibernate.dialect.MySQL5Dialect
     defer-datasource-initialization: true

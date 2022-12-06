@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.nio.charset.Charset;
+import java.util.Objects;
 
 @Controller
 @RequiredArgsConstructor
@@ -35,11 +36,17 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<Users> login(@RequestBody UserLoginForm userLoginForm){
+
         Users users = usersService.login(userLoginForm.getEmail(),userLoginForm.getPassword());
 //        System.out.println(users);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
-        return new ResponseEntity<>(users, headers, HttpStatus.OK);
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+//        return new ResponseEntity<>(users, headers, HttpStatus.OK);
+        System.out.println(users);
+        if (Objects.isNull(users)){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
     @GetMapping("/logout")
     public String logout(){
