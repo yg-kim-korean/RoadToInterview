@@ -5,19 +5,19 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.server.RoadToInerview.domain.Users;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
 import java.time.Instant;
-
+@Component
 public class JWTUtil {
-    @Value("${data.secret-key}")
-    private static String secret_key;
 
-    @Value("${data.refresh-key}")
+    private static String secret_key;
     private static String refresh_key;
     private static final long AUTH_TIME = 20*60; //60초
     private static final long REFRESH_TIME = 24*60*60*7; //일주일
 
     public static String makeAuthToken(Users users){
-
+        System.out.println(secret_key);
         return JWT.create().withSubject(users.getEmail())
                 .withClaim("exp", Instant.now().getEpochSecond()+AUTH_TIME)
                 .sign(Algorithm.HMAC256(secret_key));
@@ -38,5 +38,14 @@ public class JWTUtil {
             return VerifyResult.builder().success(false).username(decode.getSubject()).build();
         }
 
+    }
+
+    @Value("${data.refresh-key}")
+    public void setRefresh_key(String refresh_key) {
+        JWTUtil.refresh_key = refresh_key;
+    }
+    @Value("${data.secret-key}")
+    public void setSecret_key(String secret_key) {
+        JWTUtil.secret_key = secret_key;
     }
 }

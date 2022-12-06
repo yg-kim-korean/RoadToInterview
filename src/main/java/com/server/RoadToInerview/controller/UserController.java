@@ -1,5 +1,7 @@
 package com.server.RoadToInerview.controller;
 
+import com.server.RoadToInerview.configuration.JWTUtil;
+import com.server.RoadToInerview.domain.LoginResultForm;
 import com.server.RoadToInerview.domain.ResponseForm;
 import com.server.RoadToInerview.domain.UserLoginForm;
 import com.server.RoadToInerview.domain.Users;
@@ -13,6 +15,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
@@ -63,17 +68,24 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Users> login(@RequestBody UserLoginForm userLoginForm){
-
+    public ResponseEntity<?> login(@RequestBody UserLoginForm userLoginForm, HttpServletRequest httpServletRequest, HttpServletResponse response){
+        ResponseForm responseForm = new ResponseForm();
+        LoginResultForm loginResultForm = new LoginResultForm();
         Users users = usersService.login(userLoginForm.getEmail(),userLoginForm.getPassword());
-//        System.out.println(users);
+        if (Objects.isNull(users)){
+            responseForm.setMessage("로그인 : 일치하는 유저 정보가 없습니다.");
+            return new ResponseEntity<>(responseForm,HttpStatus.NOT_FOUND);
+        }
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8 ));
-        System.out.println(users);
-        if (Objects.isNull(users)){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(users, HttpStatus.OK);
+        String accessToken = JWTUtil.makeAuthToken(users);
+        String refToken = JWTUtil.makeRefreshToken(users);
+        Cookie cookie = new Cookie("refreshToken",refToken);
+        response.addCookie(cookie);
+        loginResultForm.setUsers(users);
+        loginResultForm.setAccessToken(accessToken);
+        return new ResponseEntity<>(loginResultForm, HttpStatus.OK);
+
     }
     @GetMapping("/logout")
     public String logout(){
