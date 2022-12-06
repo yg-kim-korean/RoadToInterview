@@ -5,12 +5,15 @@ import com.server.RoadToInerview.domain.UserLoginForm;
 import com.server.RoadToInerview.domain.Users;
 import com.server.RoadToInerview.service.UsersService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 @Controller
@@ -29,17 +32,29 @@ public class UserController {
     public ResponseEntity<?> signup(@RequestBody Users users)
     {
         ResponseForm responseForm = new ResponseForm();
-        String message = usersService.signup(users);
-        if (message == "created"){
+        String message = "";
+
+        if (null== users.getEmail() || users.getEmail().isEmpty() ){
+            message = "회원 가입 : 이메일 체크 Server Error";
+            responseForm.setMessage(message);
+            return new ResponseEntity<>(responseForm,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        else if (null== users.getNickname() || users.getNickname().isEmpty() ){
+            message = "회원 가입 : 닉네임 체크 Server Error";
+            responseForm.setMessage(message);
+            return new ResponseEntity<>(responseForm,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        message = usersService.signup(users);
+        if (message.equals("created")){
             return new ResponseEntity<>(users,HttpStatus.CREATED);
         }
         else{
 
-            if (message == "nickname"){
+            if (message.equals("nickname")){
                 responseForm.setNickName("false");
                 responseForm.setMessage("회원 가입 : 이미 존재하는 닉네임입니다.");
             }
-            else if (message == "email"){
+            else if (message.equals("email")){
                 responseForm.setEmail("false");
                 responseForm.setMessage("회원 가입 : 이미 존재하는 이메일입니다.");
             }
@@ -52,9 +67,8 @@ public class UserController {
 
         Users users = usersService.login(userLoginForm.getEmail(),userLoginForm.getPassword());
 //        System.out.println(users);
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
-//        return new ResponseEntity<>(users, headers, HttpStatus.OK);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8 ));
         System.out.println(users);
         if (Objects.isNull(users)){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -69,7 +83,7 @@ public class UserController {
     public String re_token(){
         return "asd";
     }
-    @GetMapping("/auth?email=a@naver.com&token=aaa")
+    @GetMapping("/auth")
     public String email_auth(@RequestParam("email") String email,@RequestParam("token") String token){
         return "as";
     }
