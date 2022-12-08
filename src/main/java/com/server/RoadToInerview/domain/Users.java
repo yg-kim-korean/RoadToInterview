@@ -45,7 +45,8 @@ public class Users extends BaseEntity{
     private List<Interviews> interviews = new ArrayList<>();
 
     @ToString.Exclude
-    @OneToMany(mappedBy = "users_id",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "users_id", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Collections> collections = new ArrayList<>();
+
 
 }

@@ -80,20 +80,38 @@ public class UserController {
         headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8 ));
         String accessToken = JWTUtil.makeAuthToken(users);
         String refToken = JWTUtil.makeRefreshToken(users);
+        headers.set("authentication", "bearer "+ accessToken);
         Cookie cookie = new Cookie("refreshToken",refToken);
         response.addCookie(cookie);
         loginResultForm.setUsers(users);
         loginResultForm.setAccessToken(accessToken);
-        return new ResponseEntity<>(loginResultForm, HttpStatus.OK);
-
+        return new ResponseEntity<>(loginResultForm,headers, HttpStatus.OK);
     }
     @GetMapping("/logout")
-    public String logout(){
-        return "asd";
+    public ResponseEntity<?> logout(HttpServletResponse response, HttpServletRequest request){
+        ResponseForm responseForm = new ResponseForm();
+        try {
+            response.getHeader("authentication");
+        }
+        catch (Exception e){
+            responseForm.setMessage("로그아웃 : 로그인이 만료되었습니다.");
+            return new ResponseEntity<>(responseForm, HttpStatus.UNAUTHORIZED);
+        }
+        responseForm.setMessage("로그아웃 되었습니다.");
+        HttpHeaders headers = new HttpHeaders();
+        Cookie deleteCookie = new Cookie("refreshToken",null);
+        deleteCookie.setMaxAge(0);
+        response.addCookie(deleteCookie);
+        headers.set("authentication","null");
+        return new ResponseEntity<>(responseForm, headers, HttpStatus.OK);
     }
     @GetMapping("/users") // 토큰 재발급
-    public String re_token(){
-        return "asd";
+    public ResponseEntity<?> re_token(HttpServletRequest request, HttpServletResponse response){
+//        request.getHeaders()
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8 ));
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
     @GetMapping("/auth")
     public String email_auth(@RequestParam("email") String email,@RequestParam("token") String token){
