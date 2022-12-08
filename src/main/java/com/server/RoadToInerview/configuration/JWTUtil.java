@@ -17,7 +17,7 @@ public class JWTUtil {
     private static final long REFRESH_TIME = 24*60*60*7; //일주일
 
     public static String makeAuthToken(Users users){
-        System.out.println(secret_key);
+
         return JWT.create().withSubject(users.getEmail())
                 .withClaim("exp", Instant.now().getEpochSecond()+AUTH_TIME)
                 .sign(Algorithm.HMAC256(secret_key));

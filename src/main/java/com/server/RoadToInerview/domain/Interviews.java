@@ -28,15 +28,15 @@ public class Interviews extends BaseEntity{
     @ManyToOne(targetEntity =  Users.class,fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private int users_id;
 
-    @Builder.Default
+    @ToString.Exclude
     @OneToMany(mappedBy = "interviews_id",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Collections> collections = new ArrayList<>();
 
-    @Builder.Default
+    @ToString.Exclude
     @OneToMany(mappedBy = "interviews_id",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Questions> questions = new ArrayList<>();
 
-    @Builder.Default
+    @ToString.Exclude
     @ManyToMany(targetEntity =  Category.class,fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "cate_inter")
     private List<Category> categories = new ArrayList<>();

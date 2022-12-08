@@ -18,10 +18,10 @@ public class Collections extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @ToString.Exclude
     @ManyToOne(targetEntity =  Users.class,fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Integer users_id;
-
+    @ToString.Exclude
     @ManyToOne(targetEntity =  Interviews.class,fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Integer interviews_id;
 

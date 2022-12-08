@@ -34,7 +34,7 @@ public class UsersService {
     @Transactional
     public Users login(String email, String password){
 
-        Users users = usersRepository.findUserByEmailAndPassword(email,password);
+        Users users = usersRepository.findUsersByEmailAndPassword(email,password);
         if (!Objects.isNull(users)){
             return users;
         }
