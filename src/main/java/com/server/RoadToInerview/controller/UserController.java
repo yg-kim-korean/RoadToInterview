@@ -1,10 +1,7 @@
 package com.server.RoadToInerview.controller;
 
 import com.server.RoadToInerview.configuration.JWTUtil;
-import com.server.RoadToInerview.domain.LoginResultForm;
-import com.server.RoadToInerview.domain.ResponseForm;
-import com.server.RoadToInerview.domain.UserLoginForm;
-import com.server.RoadToInerview.domain.Users;
+import com.server.RoadToInerview.domain.*;
 import com.server.RoadToInerview.service.UsersService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -38,7 +35,7 @@ public class UserController {
     {
         ResponseForm responseForm = new ResponseForm();
         String message = "";
-
+        Users newUsers;
         if (null== users.getEmail() || users.getEmail().isEmpty() ){
             message = "회원 가입 : 이메일 체크 Server Error";
             responseForm.setMessage(message);
@@ -49,17 +46,16 @@ public class UserController {
             responseForm.setMessage(message);
             return new ResponseEntity<>(responseForm,HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        message = usersService.signup(users);
-        if (message.equals("created")){
-            return new ResponseEntity<>(users,HttpStatus.CREATED);
+        String check = usersService.checking(users.getEmail(), users.getNickname());
+        if( check == "no" ){
+            newUsers = usersService.signup(users);
+            return new ResponseEntity<>(newUsers,HttpStatus.CREATED);
         }
-        else{
-
-            if (message.equals("nickname")){
+        else {
+            if (check == "email") {
                 responseForm.setNickName("false");
                 responseForm.setMessage("회원 가입 : 이미 존재하는 닉네임입니다.");
-            }
-            else if (message.equals("email")){
+            } else if (check == "nickname") {
                 responseForm.setEmail("false");
                 responseForm.setMessage("회원 가입 : 이미 존재하는 이메일입니다.");
             }
@@ -118,8 +114,31 @@ public class UserController {
         return "as";
     }
     @PutMapping("/users")//유저 수정
-    public String put_user(){
-        return "asd";
+    public ResponseEntity<?> put_user(@RequestBody UserPutForm userPutForm,HttpServletRequest request, HttpServletResponse response){
+        ResponseForm responseForm = new ResponseForm();
+        Users newUsers;
+        try {
+            response.getHeader("authentication");
+        }
+        catch (Exception e){
+            responseForm.setMessage("로그아웃 : 로그인이 만료되었습니다.");
+            return new ResponseEntity<>(responseForm, HttpStatus.UNAUTHORIZED);
+        }
+        String check = usersService.checking(userPutForm.getEmail(), userPutForm.getNickname());
+        if( check == "no" ){
+            newUsers = usersService.modify(userPutForm);
+            return new ResponseEntity<>(newUsers,HttpStatus.CREATED);
+        }
+        else {
+            if (check == "email") {
+                responseForm.setNickName("false");
+                responseForm.setMessage("회원 가입 : 이미 존재하는 닉네임입니다.");
+            } else if (check == "nickname") {
+                responseForm.setEmail("false");
+                responseForm.setMessage("회원 가입 : 이미 존재하는 이메일입니다.");
+            }
+            return new ResponseEntity<>(responseForm,HttpStatus.CONFLICT);
+        }
     }
     @PostMapping("/oauth")
     public String oauth(){

@@ -30,12 +30,12 @@ public class UserServiceTest {
         users.setManager(true);
         users.setSrc("1234");
 
-        if(usersService.signup(users) == "created"){
-            System.out.println("성공");
-        }
-        else{
-            System.out.println("실패");
-        }
+//        if(usersService.signup(users) ){
+//            System.out.println("성공");
+//        }
+//        else{
+//            System.out.println("실패");
+//        }
     }
     @Test
     void userLoginTest(){

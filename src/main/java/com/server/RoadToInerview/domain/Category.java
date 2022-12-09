@@ -21,7 +21,7 @@ public class Category extends BaseEntity{
     private String category;
 
     private Integer category_id;
-    @ToString.Exclude
-    @ManyToOne(targetEntity =  Users.class,fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Integer users_id;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name="users_id")
+    private Users users_id;
 }

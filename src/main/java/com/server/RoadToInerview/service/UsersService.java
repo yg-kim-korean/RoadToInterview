@@ -1,5 +1,6 @@
 package com.server.RoadToInerview.service;
 
+import com.server.RoadToInerview.domain.UserPutForm;
 import com.server.RoadToInerview.domain.Users;
 import com.server.RoadToInerview.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,21 +16,26 @@ public class UsersService {
     @Autowired
     private UsersRepository usersRepository;
 
-    @Transactional
-    public String signup(Users users){
-        Users check_email = usersRepository.findByEmail(users.getEmail());
-        Users check_nickname = usersRepository.findByNickname(users.getNickname());
+    public String checking(String email, String nickname){
+        Users check_email = usersRepository.findByEmail(email);
+        Users check_nickname = usersRepository.findByNickname(nickname);
+
         if( Objects.isNull(check_nickname) && Objects.isNull(check_email) ){
-            usersRepository.save(users);
-        }
-        else if( !Objects.isNull(check_nickname)){
-            return "nickname";
+            return "no";
         }
         else if( !Objects.isNull(check_email)){
             return "email";
         }
-        return "created";
-
+        else if( !Objects.isNull(check_nickname)){
+            return "nickname";
+        }
+        return null;
+    }
+    @Transactional
+    public Users signup(Users users){
+        Users newUsers;
+        newUsers = usersRepository.save(users);
+        return newUsers;
     }
     @Transactional
     public Users login(String email, String password){
@@ -45,5 +51,17 @@ public class UsersService {
     public Boolean remove(Long id){
         usersRepository.deleteById(id);
         return true;
+    }
+
+    @Transactional
+    public Users modify(UserPutForm userPutForm){
+
+        Users newUsers = usersRepository.findByEmail(userPutForm.getEmail());
+        newUsers.setNickname(userPutForm.getNickname());
+        newUsers.setPassword(userPutForm.getPassword());
+        newUsers.setEmail(userPutForm.getEmail());
+        usersRepository.save(newUsers);
+
+        return newUsers;
     }
 }

@@ -25,8 +25,9 @@ public class Interviews extends BaseEntity{
     private String description;
 
 
-    @ManyToOne(targetEntity =  Users.class,fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private int users_id;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "users_id")
+    private Users users_id;
 
     @ToString.Exclude
     @OneToMany(mappedBy = "interviews_id",fetch = FetchType.LAZY, cascade = CascadeType.ALL)

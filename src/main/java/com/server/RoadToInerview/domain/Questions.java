@@ -25,6 +25,7 @@ public class Questions extends BaseEntity{
 
     private Integer limit_time;
 
-    @ManyToOne(targetEntity =  Interviews.class,fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Integer interviews_id;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "interviews_id")
+    private Interviews interviews_id;
 }
