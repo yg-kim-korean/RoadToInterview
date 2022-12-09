@@ -49,15 +49,15 @@ public class UserController {
             return new ResponseEntity<>(responseForm,HttpStatus.INTERNAL_SERVER_ERROR);
         }
         String check = usersService.checking(users.getEmail(), users.getNickname());
-        if( check == "no" ){
+        if( check.equals("no")){
             newUsers = usersService.signup(users);
             return new ResponseEntity<>(newUsers,HttpStatus.CREATED);
         }
         else {
-            if (check == "email") {
+            if (check.equals("email")) {
                 responseForm.setNickName("false");
                 responseForm.setMessage("회원 가입 : 이미 존재하는 닉네임입니다.");
-            } else if (check == "nickname") {
+            } else if (check.equals("nickname")) {
                 responseForm.setEmail("false");
                 responseForm.setMessage("회원 가입 : 이미 존재하는 이메일입니다.");
             }
@@ -66,7 +66,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody UserLoginForm userLoginForm, HttpServletRequest httpServletRequest, HttpServletResponse response){
+    public ResponseEntity<?> login(@RequestBody UserLoginForm userLoginForm, HttpServletResponse response){
         ResponseForm responseForm = new ResponseForm();
         LoginResultForm loginResultForm = new LoginResultForm();
         Users users = usersService.login(userLoginForm.getEmail(),userLoginForm.getPassword());
@@ -137,7 +137,7 @@ public class UserController {
             }
         }
         UsersTokens usersTokens = usersService.tokenReissue(accessToken, refreshToken);
-        HttpHeaders headers = new HttpHeaders(); ;
+        HttpHeaders headers = new HttpHeaders();
         System.out.println(usersTokens);
         if (usersTokens.getVerified()) {
             users = usersTokens.getUsers();
