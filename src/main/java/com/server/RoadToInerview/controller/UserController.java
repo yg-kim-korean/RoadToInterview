@@ -30,6 +30,8 @@ public class UserController {
         return "hello";
     }
 
+
+
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody Users users)
     {
@@ -86,8 +88,9 @@ public class UserController {
     @GetMapping("/logout")
     public ResponseEntity<?> logout(HttpServletResponse response, HttpServletRequest request){
         ResponseForm responseForm = new ResponseForm();
+
         try {
-            response.getHeader("authentication");
+            request.getHeader("authentication");
         }
         catch (Exception e){
             responseForm.setMessage("로그아웃 : 로그인이 만료되었습니다.");
@@ -102,26 +105,70 @@ public class UserController {
         return new ResponseEntity<>(responseForm, headers, HttpStatus.OK);
     }
     @GetMapping("/users") // 토큰 재발급
-    public ResponseEntity<?> re_token(HttpServletRequest request, HttpServletResponse response){
-//        request.getHeaders()
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8 ));
+    public ResponseEntity<?> tokenReissue(HttpServletRequest request, HttpServletResponse response) {
+        ResponseForm responseForm = new ResponseForm();
+        Cookie[] cookie;
+        String accessToken;
+        String refreshToken = "";
+        Users users;
+
+        try {
+            accessToken = request.getHeader("authentication");
+
+        } catch (Exception e) {
+            responseForm.setMessage("토큰 재발급 : 로그인이 만료되었습니다.(accessToken)");
+            return new ResponseEntity<>(responseForm, HttpStatus.UNAUTHORIZED);
+        }
+        try {
+            cookie = request.getCookies();
+
+        } catch (Exception e) {
+            responseForm.setMessage("토큰 재발급 : 로그인이 만료되었습니다.(refreshToken)");
+            return new ResponseEntity<>(responseForm, HttpStatus.UNAUTHORIZED);
+        }
+        for (int i = 0; i < cookie.length; i++) {
+
+            if (cookie[i].getName().equals("refreshToken")) {
+                refreshToken = cookie[i].getValue();
+            }
+            if (refreshToken.isEmpty()) {
+                responseForm.setMessage("토큰 재발급 : 로그인이 만료되었습니다.(refreshToken)");
+                return new ResponseEntity<>(responseForm, HttpStatus.UNAUTHORIZED);
+            }
+        }
+        UsersTokens usersTokens = usersService.tokenReissue(accessToken, refreshToken);
+        HttpHeaders headers = new HttpHeaders(); ;
+        System.out.println(usersTokens);
+        if (usersTokens.getVerified()) {
+            users = usersTokens.getUsers();
+
+            headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+
+            headers.set("authentication", "bearer " + usersTokens.getAccessToken());
+            Cookie cookies = new Cookie("refreshToken", usersTokens.getRefreshToken());
+            response.addCookie(cookies);
+        } else {
+            responseForm.setMessage("토큰 재발급 : 일치하는 유저 정보가 없습니다.");
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(users, headers, HttpStatus.OK);
+    }
+    @GetMapping("/auth") //email 인증
+    public ResponseEntity<?> email_auth(@RequestBody String email,HttpServletResponse response, HttpServletRequest request){
+        ResponseForm responseForm = new ResponseForm();
 
         return new ResponseEntity<>(HttpStatus.OK);
-    }
-    @GetMapping("/auth")
-    public String email_auth(@RequestParam("email") String email,@RequestParam("token") String token){
-        return "as";
     }
     @PutMapping("/users")//유저 수정
     public ResponseEntity<?> put_user(@RequestBody UserPutForm userPutForm,HttpServletRequest request, HttpServletResponse response){
         ResponseForm responseForm = new ResponseForm();
         Users newUsers;
         try {
-            response.getHeader("authentication");
+            request.getHeader("authentication");
         }
         catch (Exception e){
-            responseForm.setMessage("로그아웃 : 로그인이 만료되었습니다.");
+            responseForm.setMessage("유저 수정 : 로그인이 만료되었습니다.");
             return new ResponseEntity<>(responseForm, HttpStatus.UNAUTHORIZED);
         }
         String check = usersService.checking(userPutForm.getEmail(), userPutForm.getNickname());

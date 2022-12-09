@@ -29,9 +29,19 @@ public class JWTUtil {
                 .sign(Algorithm.HMAC256(refresh_key));
     }
 
-    public static VerifyResult verify(String token){
+    public static VerifyResult verifyAccess(String token){
         try {
             DecodedJWT verify = JWT.require(Algorithm.HMAC256(secret_key)).build().verify(token);
+            return VerifyResult.builder().success(true).username(verify.getSubject()).build();
+        }catch (Exception e){
+            DecodedJWT decode = JWT.decode(token);
+            return VerifyResult.builder().success(false).username(decode.getSubject()).build();
+        }
+
+    }
+    public static VerifyResult verifyRefresh(String token){
+        try {
+            DecodedJWT verify = JWT.require(Algorithm.HMAC256(refresh_key)).build().verify(token);
             return VerifyResult.builder().success(true).username(verify.getSubject()).build();
         }catch (Exception e){
             DecodedJWT decode = JWT.decode(token);

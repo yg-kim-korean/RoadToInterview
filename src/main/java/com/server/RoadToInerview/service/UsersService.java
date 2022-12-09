@@ -1,7 +1,10 @@
 package com.server.RoadToInerview.service;
 
+import com.server.RoadToInerview.configuration.JWTUtil;
+import com.server.RoadToInerview.configuration.VerifyResult;
 import com.server.RoadToInerview.domain.UserPutForm;
 import com.server.RoadToInerview.domain.Users;
+import com.server.RoadToInerview.domain.UsersTokens;
 import com.server.RoadToInerview.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,5 +66,31 @@ public class UsersService {
         usersRepository.save(newUsers);
 
         return newUsers;
+    }
+    @Transactional
+    public UsersTokens tokenReissue(String accessToken, String refreshToken){
+        VerifyResult verifyResultAccess = JWTUtil.verifyAccess(accessToken.split(" ")[1]);
+        VerifyResult verifyResultRefresh = JWTUtil.verifyRefresh(refreshToken);
+        UsersTokens usersTokens = new UsersTokens();
+
+        if (verifyResultRefresh.isSuccess() && verifyResultAccess.isSuccess()){
+            System.out.println(verifyResultRefresh);
+            System.out.println(verifyResultAccess);
+            if (verifyResultRefresh.getUsername().equals(verifyResultAccess.getUsername())){
+                Users users = usersRepository.findByEmail(verifyResultAccess.getUsername());
+                usersTokens.setUsers(users);
+                usersTokens.setAccessToken(JWTUtil.makeAuthToken(users));
+                usersTokens.setRefreshToken(JWTUtil.makeRefreshToken(users));
+                usersTokens.setVerified(true);
+            }
+            else{
+                usersTokens.setVerified(false);
+            }
+        }
+        else{
+            usersTokens.setVerified(false);
+        }
+
+        return usersTokens;
     }
 }
