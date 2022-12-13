@@ -1,5 +1,6 @@
 package com.server.RoadToInerview.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.server.RoadToInerview.domain.interviews.Interviews;
 import com.server.RoadToInerview.domain.users.Users;
 import lombok.*;
@@ -23,10 +24,12 @@ public class Collections extends BaseEntity{
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="users_id")
+    @JsonIgnore
     private Users users_id;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="interviews_id")
+    @JsonIgnore
     private Interviews interviews_id;
 
 }

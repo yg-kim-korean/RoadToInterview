@@ -1,5 +1,6 @@
 package com.server.RoadToInerview.domain.interviews;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.server.RoadToInerview.domain.BaseEntity;
 import com.server.RoadToInerview.domain.Category.Categorys;
 import com.server.RoadToInerview.domain.Collections;
@@ -31,6 +32,7 @@ public class Interviews extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "users_id")
+    @JsonIgnore
     private Users users_id;
 
 
@@ -43,5 +45,6 @@ public class Interviews extends BaseEntity {
 
     @ManyToMany(targetEntity =  Categorys.class,fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "cate_inter")
+    @JsonIgnore
     private List<Categorys> categorys = new ArrayList<>();
 }
