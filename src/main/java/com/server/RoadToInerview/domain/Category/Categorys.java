@@ -1,4 +1,6 @@
-package com.server.RoadToInerview.domain;
+package com.server.RoadToInerview.domain.Category;
+import com.server.RoadToInerview.domain.BaseEntity;
+import com.server.RoadToInerview.domain.users.Users;
 import lombok.*;
 
 import javax.persistence.*;
@@ -6,13 +8,12 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Entity
 @Table
 @EntityListeners(value = EntityListeners.class)
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class Category extends BaseEntity{
+public class Categorys extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +21,7 @@ public class Category extends BaseEntity{
 
     private String category;
 
-    private Integer category_id;
+    private Integer categorys_id;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="users_id")
     private Users users_id;

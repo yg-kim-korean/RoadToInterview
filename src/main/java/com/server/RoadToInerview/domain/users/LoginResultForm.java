@@ -1,5 +1,6 @@
-package com.server.RoadToInerview.domain;
+package com.server.RoadToInerview.domain.users;
 
+import com.server.RoadToInerview.domain.users.Users;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

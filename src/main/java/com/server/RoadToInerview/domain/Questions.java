@@ -1,5 +1,6 @@
 package com.server.RoadToInerview.domain;
 
+import com.server.RoadToInerview.domain.interviews.Interviews;
 import lombok.*;
 
 import javax.persistence.*;

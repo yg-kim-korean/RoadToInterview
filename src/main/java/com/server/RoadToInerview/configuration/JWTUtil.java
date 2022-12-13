@@ -3,7 +3,7 @@ package com.server.RoadToInerview.configuration;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.server.RoadToInerview.domain.Users;
+import com.server.RoadToInerview.domain.users.Users;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -31,7 +31,7 @@ public class JWTUtil {
 
     public static VerifyResult verifyAccess(String token){
         try {
-            DecodedJWT verify = JWT.require(Algorithm.HMAC256(secret_key)).build().verify(token);
+            DecodedJWT verify = JWT.require(Algorithm.HMAC256(secret_key)).build().verify(token.split(" ")[1]);
             return VerifyResult.builder().success(true).username(verify.getSubject()).build();
         }catch (Exception e){
             DecodedJWT decode = JWT.decode(token);

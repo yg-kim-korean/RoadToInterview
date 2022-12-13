@@ -1,5 +1,7 @@
 package com.server.RoadToInerview.domain;
 
+import com.server.RoadToInerview.domain.interviews.Interviews;
+import com.server.RoadToInerview.domain.users.Users;
 import lombok.*;
 
 import javax.persistence.*;
@@ -22,7 +24,7 @@ public class Collections extends BaseEntity{
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="users_id")
     private Users users_id;
-    @ToString.Exclude
+
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="interviews_id")
     private Interviews interviews_id;

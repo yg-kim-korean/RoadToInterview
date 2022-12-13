@@ -17,8 +17,8 @@ spring:
       hibernate:
         format_sql: true
     generate-ddl: true
-#    hibernate:
-#      ddl-auto: create
+    hibernate:
+      ddl-auto: create
 data:
   secret-key: roadtointerview
   refresh-key: interviewtoroad

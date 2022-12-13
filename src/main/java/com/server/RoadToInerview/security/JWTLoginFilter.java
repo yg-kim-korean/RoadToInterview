@@ -2,8 +2,8 @@ package com.server.RoadToInerview.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.server.RoadToInerview.configuration.JWTUtil;
-import com.server.RoadToInerview.domain.UserLoginForm;
-import com.server.RoadToInerview.domain.Users;
+import com.server.RoadToInerview.domain.users.UserLoginForm;
+import com.server.RoadToInerview.domain.users.Users;
 import lombok.SneakyThrows;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;

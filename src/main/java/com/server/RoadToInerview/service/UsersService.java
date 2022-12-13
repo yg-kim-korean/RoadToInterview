@@ -2,9 +2,9 @@ package com.server.RoadToInerview.service;
 
 import com.server.RoadToInerview.configuration.JWTUtil;
 import com.server.RoadToInerview.configuration.VerifyResult;
-import com.server.RoadToInerview.domain.UserPutForm;
-import com.server.RoadToInerview.domain.Users;
-import com.server.RoadToInerview.domain.UsersTokens;
+import com.server.RoadToInerview.domain.users.UserPutForm;
+import com.server.RoadToInerview.domain.users.Users;
+import com.server.RoadToInerview.domain.users.UsersTokens;
 import com.server.RoadToInerview.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +36,7 @@ public class UsersService {
     }
     @Transactional
     public Users signup(Users users){
-        Users newUsers;
-        newUsers = usersRepository.save(users);
+        Users newUsers = usersRepository.save(users);
         return newUsers;
     }
     @Transactional
@@ -69,7 +68,7 @@ public class UsersService {
     }
     @Transactional
     public UsersTokens tokenReissue(String accessToken, String refreshToken){
-        VerifyResult verifyResultAccess = JWTUtil.verifyAccess(accessToken.split(" ")[1]);
+        VerifyResult verifyResultAccess = JWTUtil.verifyAccess(accessToken);
         VerifyResult verifyResultRefresh = JWTUtil.verifyRefresh(refreshToken);
         UsersTokens usersTokens = new UsersTokens();
 

@@ -2,6 +2,7 @@ package com.server.RoadToInerview.controller;
 
 import com.server.RoadToInerview.configuration.JWTUtil;
 import com.server.RoadToInerview.domain.*;
+import com.server.RoadToInerview.domain.users.*;
 import com.server.RoadToInerview.service.UsersService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -82,7 +83,7 @@ public class UserController {
         Cookie cookie = new Cookie("refreshToken",refToken);
         response.addCookie(cookie);
         loginResultForm.setUsers(users);
-        loginResultForm.setAccessToken(accessToken);
+        loginResultForm.setAccessToken("bearer "+  accessToken);
         return new ResponseEntity<>(loginResultForm,headers, HttpStatus.OK);
     }
     @GetMapping("/logout")
@@ -161,7 +162,7 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @PutMapping("/users")//유저 수정
-    public ResponseEntity<?> put_user(@RequestBody UserPutForm userPutForm,HttpServletRequest request, HttpServletResponse response){
+    public ResponseEntity<?> put_user(@RequestBody UserPutForm userPutForm, HttpServletRequest request, HttpServletResponse response){
         ResponseForm responseForm = new ResponseForm();
         Users newUsers;
         try {

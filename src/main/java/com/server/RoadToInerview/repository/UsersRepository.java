@@ -1,6 +1,6 @@
 package com.server.RoadToInerview.repository;
 
-import com.server.RoadToInerview.domain.Users;
+import com.server.RoadToInerview.domain.users.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

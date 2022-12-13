@@ -1,5 +1,9 @@
-package com.server.RoadToInerview.domain;
+package com.server.RoadToInerview.domain.users;
 
+import com.server.RoadToInerview.domain.BaseEntity;
+import com.server.RoadToInerview.domain.Category.Categorys;
+import com.server.RoadToInerview.domain.Collections;
+import com.server.RoadToInerview.domain.interviews.Interviews;
 import lombok.*;
 
 import javax.persistence.*;
@@ -15,7 +19,7 @@ import java.util.List;
 @EntityListeners(value = EntityListeners.class)
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class Users extends BaseEntity{
+public class Users extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,15 +40,15 @@ public class Users extends BaseEntity{
 
     private String src;
 
-    @ToString.Exclude
-    @OneToMany(mappedBy = "users_id",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Category> categories = new ArrayList<>();
 
-    @ToString.Exclude
+    @OneToMany(mappedBy = "users_id",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Categorys> categorys = new ArrayList<>();
+
+
     @OneToMany(mappedBy = "users_id",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Interviews> interviews = new ArrayList<>();
 
-    @ToString.Exclude
+
     @OneToMany(mappedBy = "users_id", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Collections> collections = new ArrayList<>();
 

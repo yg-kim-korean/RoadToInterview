@@ -3,7 +3,7 @@ package com.server.RoadToInerview.service;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.server.RoadToInerview.domain.Users;
+import com.server.RoadToInerview.domain.users.Users;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

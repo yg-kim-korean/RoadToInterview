@@ -1,14 +1,14 @@
-package com.server.RoadToInerview.domain;
+package com.server.RoadToInerview.domain.users;
+
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class UserLoginForm {
+public class UserPutForm {
     private String email;
+    private String nickname;
     private String password;
 }

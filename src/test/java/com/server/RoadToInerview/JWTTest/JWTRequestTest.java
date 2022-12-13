@@ -1,14 +1,13 @@
 package com.server.RoadToInerview.JWTTest;
 
-import com.server.RoadToInerview.domain.UserLoginForm;
-import com.server.RoadToInerview.domain.Users;
+import com.server.RoadToInerview.domain.users.UserLoginForm;
+import com.server.RoadToInerview.domain.users.Users;
 import com.server.RoadToInerview.service.UsersService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
