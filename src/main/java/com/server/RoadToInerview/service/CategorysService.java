@@ -1,8 +1,8 @@
 package com.server.RoadToInerview.service;
 
 import com.server.RoadToInerview.configuration.JWTUtil;
-import com.server.RoadToInerview.domain.Category.Categorys;
-import com.server.RoadToInerview.domain.Category.CategorysPostForm;
+import com.server.RoadToInerview.domain.Categorys.Categorys;
+import com.server.RoadToInerview.domain.Categorys.CategorysPostForm;
 import com.server.RoadToInerview.domain.users.Users;
 import com.server.RoadToInerview.repository.CategorysRepository;
 import com.server.RoadToInerview.repository.UsersRepository;
@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -27,5 +29,11 @@ public class CategorysService {
         categorys.setUsers_id(users);
         Categorys newCategorys = categorysRepository.save(categorys);
         return newCategorys;
+    }
+    @Transactional
+    public List<Categorys> getCategorys(){
+        List<Categorys> categorys= categorysRepository.findAll();
+        System.out.println(categorys);
+        return categorys;
     }
 }

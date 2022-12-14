@@ -1,4 +1,4 @@
-package com.server.RoadToInerview.domain.Category;
+package com.server.RoadToInerview.domain.Categorys;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.server.RoadToInerview.domain.BaseEntity;
 import com.server.RoadToInerview.domain.users.Users;
@@ -6,13 +6,14 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table
 @EntityListeners(value = EntityListeners.class)
-@ToString(callSuper = true)
+@ToString(callSuper = true,exclude = {"users_id"})
 @EqualsAndHashCode(callSuper = true)
 public class Categorys extends BaseEntity {
 

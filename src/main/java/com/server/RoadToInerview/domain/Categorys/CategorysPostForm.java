@@ -1,4 +1,4 @@
-package com.server.RoadToInerview.domain.Category;
+package com.server.RoadToInerview.domain.Categorys;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

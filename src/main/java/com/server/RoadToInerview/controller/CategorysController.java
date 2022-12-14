@@ -1,7 +1,7 @@
 package com.server.RoadToInerview.controller;
 
-import com.server.RoadToInerview.domain.Category.Categorys;
-import com.server.RoadToInerview.domain.Category.CategorysPostForm;
+import com.server.RoadToInerview.domain.Categorys.Categorys;
+import com.server.RoadToInerview.domain.Categorys.CategorysPostForm;
 import com.server.RoadToInerview.domain.ResponseForm;
 import com.server.RoadToInerview.service.CategorysService;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -35,7 +36,8 @@ public class CategorysController {
         return new ResponseEntity<>(categorys, HttpStatus.OK);
     }
     @GetMapping("/categorys")
-    public String getCategory(){
-        return "asd";
+    public ResponseEntity<?> getCategory(){
+        List<Categorys> categorys = categorysService.getCategorys();
+        return new ResponseEntity<>(categorys,HttpStatus.OK);
     }
 }

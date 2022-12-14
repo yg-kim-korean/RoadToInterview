@@ -2,7 +2,7 @@ package com.server.RoadToInerview.domain.interviews;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.server.RoadToInerview.domain.BaseEntity;
-import com.server.RoadToInerview.domain.Category.Categorys;
+import com.server.RoadToInerview.domain.Categorys.Categorys;
 import com.server.RoadToInerview.domain.Collections;
 import com.server.RoadToInerview.domain.Questions;
 import com.server.RoadToInerview.domain.users.Users;
@@ -12,13 +12,14 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Table
 @Entity
 @EntityListeners(value = EntityListeners.class)
-@ToString(callSuper = true)
+@ToString(callSuper = true,exclude = {"users_id","categorys"})
 @EqualsAndHashCode(callSuper = true)
 public class Interviews extends BaseEntity {
     @Id

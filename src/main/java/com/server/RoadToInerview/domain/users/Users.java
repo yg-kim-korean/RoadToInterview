@@ -1,7 +1,7 @@
 package com.server.RoadToInerview.domain.users;
 
 import com.server.RoadToInerview.domain.BaseEntity;
-import com.server.RoadToInerview.domain.Category.Categorys;
+import com.server.RoadToInerview.domain.Categorys.Categorys;
 import com.server.RoadToInerview.domain.Collections;
 import com.server.RoadToInerview.domain.interviews.Interviews;
 import lombok.*;
@@ -10,7 +10,8 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder

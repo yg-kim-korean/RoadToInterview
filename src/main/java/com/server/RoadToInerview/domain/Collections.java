@@ -7,14 +7,14 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Entity
 @Table
 @EntityListeners(value = EntityListeners.class)
-@ToString(callSuper = true)
+@ToString(callSuper = true,exclude = {"users_id","interviews_id"})
 @EqualsAndHashCode(callSuper = true)
 public class Collections extends BaseEntity{
 

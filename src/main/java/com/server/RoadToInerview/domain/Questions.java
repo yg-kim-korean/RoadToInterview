@@ -6,15 +6,15 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Entity
 @Table
 @EntityListeners(value = EntityListeners.class)
 @ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = true,exclude = {"interviews_id"})
 public class Questions extends BaseEntity{
 
     @Id
