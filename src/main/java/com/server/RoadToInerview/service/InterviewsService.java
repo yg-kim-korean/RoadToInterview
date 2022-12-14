@@ -38,4 +38,10 @@ public class InterviewsService {
         Interviews newInterview = interviewsRepository.save(interview);
         return newInterview;
     }
+    @Transactional
+    public List<Interviews> getInterviews(int page,int size, int categorys_id){
+
+
+        return interviewsRepository.findByCategorys_id(categorys_id,size,page);
+    }
 }

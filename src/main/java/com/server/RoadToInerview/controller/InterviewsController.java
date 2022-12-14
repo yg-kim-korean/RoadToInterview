@@ -38,8 +38,9 @@ public class InterviewsController {
 
     }
     @GetMapping("/interviews")
-    public String getInterviews(@RequestParam("page") Long page, @RequestParam("size") Long size, @RequestParam("categorys_id") Long categorys_id){
-        return "asd";
+    public ResponseEntity<?> getInterviews(@RequestParam("page") int page, @RequestParam("size") int size, @RequestParam("categorys_id") int categorys_id){
+        System.out.println(page);
+        return new ResponseEntity<>(interviewsService.getInterviews(page,size,categorys_id),HttpStatus.OK);
     }
     @GetMapping("/collections")
     public String getCollections(){
