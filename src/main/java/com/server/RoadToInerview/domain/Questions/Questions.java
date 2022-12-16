@@ -1,6 +1,7 @@
-package com.server.RoadToInerview.domain;
+package com.server.RoadToInerview.domain.Questions;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.server.RoadToInerview.domain.BaseEntity;
 import com.server.RoadToInerview.domain.interviews.Interviews;
 import lombok.*;
 
@@ -15,7 +16,7 @@ import javax.persistence.*;
 @EntityListeners(value = EntityListeners.class)
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true,exclude = {"interviews_id"})
-public class Questions extends BaseEntity{
+public class Questions extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

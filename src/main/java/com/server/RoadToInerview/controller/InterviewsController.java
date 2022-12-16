@@ -39,7 +39,7 @@ public class InterviewsController {
     }
     @GetMapping("/interviews")
     public ResponseEntity<?> getInterviews(@RequestParam("page") int page, @RequestParam("size") int size, @RequestParam("categorys_id") int categorys_id){
-        System.out.println(page);
+        
         return new ResponseEntity<>(interviewsService.getInterviews(page,size,categorys_id),HttpStatus.OK);
     }
     @GetMapping("/collections")

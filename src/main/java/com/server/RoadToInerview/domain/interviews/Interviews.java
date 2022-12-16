@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.server.RoadToInerview.domain.BaseEntity;
 import com.server.RoadToInerview.domain.Categorys.Categorys;
 import com.server.RoadToInerview.domain.Collections;
-import com.server.RoadToInerview.domain.Questions;
+import com.server.RoadToInerview.domain.Questions.Questions;
 import com.server.RoadToInerview.domain.users.Users;
 import lombok.*;
 
