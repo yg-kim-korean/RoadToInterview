@@ -38,12 +38,12 @@ public class InterviewsService {
         interview.setDescription(interviewsPostForm.getDescription());
         List<Categorys> categorysList = categorysRepository.findByCategorysByCategorys_id(interviewsPostForm.getCategorysList());
         interview.setCategorys(categorysList);
-        interview.setUsers_id(users);
+        interview.setUsersId(users);
         Interviews newInterview = interviewsRepository.save(interview);
         List<Questions> newQuestionsList = new ArrayList<>();
         for (int i = 0 ; i <interviewsPostForm.getQuestions().size();i++){
             Questions questions = interviewsPostForm.getQuestions().get(i);
-            questions.setInterviews_id(newInterview);
+            questions.setInterviewsId(newInterview);
             newQuestionsList.add(questions);
         }
         questsionsRepository.saveAll(newQuestionsList);

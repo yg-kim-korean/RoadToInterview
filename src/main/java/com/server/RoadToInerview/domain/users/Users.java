@@ -42,15 +42,15 @@ public class Users extends BaseEntity {
     private String src;
 
 
-    @OneToMany(mappedBy = "users_id",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "usersId",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Categorys> categorys = new ArrayList<>();
 
 
-    @OneToMany(mappedBy = "users_id",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "usersId",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Interviews> interviews = new ArrayList<>();
 
 
-    @OneToMany(mappedBy = "users_id", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "usersId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Collections> collections = new ArrayList<>();
 
 

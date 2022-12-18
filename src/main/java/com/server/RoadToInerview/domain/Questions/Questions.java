@@ -31,5 +31,6 @@ public class Questions extends BaseEntity {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JsonIgnore
     @JoinColumn(name = "interviews_id")
-    private Interviews interviews_id;
+    @Column(name = "interviews_id")
+    private Interviews interviewsId;
 }

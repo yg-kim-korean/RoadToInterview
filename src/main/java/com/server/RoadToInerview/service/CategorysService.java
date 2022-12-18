@@ -26,7 +26,7 @@ public class CategorysService {
         Categorys categorys = new Categorys();
         categorys.setCategory(categorysPostForm.getCategory());
         categorys.setCategorys_id(categorysPostForm.getCategorys_id());
-        categorys.setUsers_id(users);
+        categorys.setUsersId(users);
         Categorys newCategorys = categorysRepository.save(categorys);
         return newCategorys;
     }

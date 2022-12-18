@@ -34,14 +34,15 @@ public class Interviews extends BaseEntity {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "users_id")
     @JsonIgnore
-    private Users users_id;
+    @Column(name = "users_id")
+    private Users usersId;
 
 
-    @OneToMany(mappedBy = "interviews_id",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "interviewsId",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Collections> collections = new ArrayList<>();
 
 
-    @OneToMany(mappedBy = "interviews_id",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "interviewsId",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Questions> questions = new ArrayList<>();
 
     @ManyToMany(targetEntity =  Categorys.class,fetch = FetchType.LAZY, cascade = CascadeType.ALL)

@@ -25,11 +25,13 @@ public class Collections extends BaseEntity{
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="users_id")
     @JsonIgnore
-    private Users users_id;
+    @Column(name = "users_id")
+    private Users usersId;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="interviews_id")
     @JsonIgnore
-    private Interviews interviews_id;
+    @Column(name = "interviews_id")
+    private Interviews interviewsId;
 
 }
