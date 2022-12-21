@@ -39,7 +39,7 @@ public class AnswersController {
         return new ResponseEntity<>(answersService.getAnswers(accessToken),HttpStatus.OK);
     }
     @GetMapping("/answers/{id}")
-    public String getOneAnswer(@PathVariable("id") Long id){
-        return "asd";
+    public ResponseEntity<?> getAllAnswers(@PathVariable("id") int interviewsId){
+        return new ResponseEntity<>(answersService.getAllAnsers(interviewsId),HttpStatus.OK);
     }
 }
