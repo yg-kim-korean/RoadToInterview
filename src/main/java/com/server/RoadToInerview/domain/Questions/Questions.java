@@ -1,11 +1,14 @@
 package com.server.RoadToInerview.domain.Questions;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.server.RoadToInerview.domain.Answers.Answers;
 import com.server.RoadToInerview.domain.BaseEntity;
 import com.server.RoadToInerview.domain.interviews.Interviews;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -31,6 +34,9 @@ public class Questions extends BaseEntity {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JsonIgnore
     @JoinColumn(name = "interviews_id")
-    @Column(name = "interviews_id")
     private Interviews interviewsId;
+
+    @OneToMany(mappedBy = "questionsId",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Answers> answers = new ArrayList<>();
+
 }

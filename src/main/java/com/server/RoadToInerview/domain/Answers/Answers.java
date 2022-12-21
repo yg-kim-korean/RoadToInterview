@@ -1,26 +1,27 @@
-package com.server.RoadToInerview.domain;
+package com.server.RoadToInerview.domain.Answers;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.server.RoadToInerview.domain.interviews.Interviews;
+import com.server.RoadToInerview.domain.BaseEntity;
+import com.server.RoadToInerview.domain.Questions.Questions;
 import com.server.RoadToInerview.domain.users.Users;
 import lombok.*;
 
 import javax.persistence.*;
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table
 @EntityListeners(value = EntityListeners.class)
-@ToString(callSuper = true,exclude = {"users_id","interviews_id"})
 @EqualsAndHashCode(callSuper = true)
-public class Collections extends BaseEntity{
-
+@ToString(callSuper = true,exclude = {"users_id","questions_id"})
+public class Answers extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private String answer;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="users_id")
@@ -28,8 +29,8 @@ public class Collections extends BaseEntity{
     private Users usersId;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name="interviews_id")
+    @JoinColumn(name="questions_id")
     @JsonIgnore
-    private Interviews interviewsId;
+    private Questions questionsId;
 
 }

@@ -1,5 +1,6 @@
 package com.server.RoadToInerview.domain.users;
 
+import com.server.RoadToInerview.domain.Answers.Answers;
 import com.server.RoadToInerview.domain.BaseEntity;
 import com.server.RoadToInerview.domain.Categorys.Categorys;
 import com.server.RoadToInerview.domain.Collections;
@@ -53,5 +54,6 @@ public class Users extends BaseEntity {
     @OneToMany(mappedBy = "usersId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Collections> collections = new ArrayList<>();
 
-
+    @OneToMany(mappedBy = "usersId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Answers> answers = new ArrayList<>();
 }

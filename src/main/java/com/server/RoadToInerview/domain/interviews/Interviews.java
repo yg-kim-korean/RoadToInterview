@@ -24,7 +24,7 @@ import java.util.List;
 public class Interviews extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     private String title;
 
@@ -34,7 +34,6 @@ public class Interviews extends BaseEntity {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "users_id")
     @JsonIgnore
-    @Column(name = "users_id")
     private Users usersId;
 
 

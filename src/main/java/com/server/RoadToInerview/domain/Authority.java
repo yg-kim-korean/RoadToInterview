@@ -19,7 +19,7 @@ import javax.persistence.Table;
 public class Authority implements GrantedAuthority {
     @Id
     @Column(name = "email")
-    private Long email;
+    private String email;
 
     @Id
     private String authority;

@@ -26,7 +26,6 @@ public class Categorys extends BaseEntity {
     private Integer categorys_id;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="users_id")
-    @Column(name = "users_id")
     @JsonIgnore
     private Users usersId;
 }
