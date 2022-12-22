@@ -3,6 +3,7 @@ package com.server.RoadToInerview.controller;
 import com.server.RoadToInerview.configuration.JWTUtil;
 import com.server.RoadToInerview.domain.*;
 import com.server.RoadToInerview.domain.users.*;
+import com.server.RoadToInerview.service.CollectionsService;
 import com.server.RoadToInerview.service.UsersService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -24,6 +25,7 @@ import java.util.Objects;
 public class UserController {
 
     private final UsersService usersService;
+    private final CollectionsService collectionsService;
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/greeting")
@@ -197,12 +199,40 @@ public class UserController {
         return "asd";
     }
     @PostMapping("/collections/{id}")
-    public String collections(@PathVariable("id") Long id){
-        return "asd";
+    public ResponseEntity<?> collections(@PathVariable("id") Long interviewsId,HttpServletRequest request)
+    {
+        String accessToken;
+        ResponseForm responseForm = new ResponseForm();
+        try {
+            accessToken = request.getHeader("authentication");
+        } catch (Exception e) {
+            responseForm.setMessage("답변 저장하기 : 로그인이 만료되었습니다.(accessToken)");
+            return new ResponseEntity<>(responseForm, HttpStatus.UNAUTHORIZED);
+        }
+
+        return new ResponseEntity<>(collectionsService.postCollections(interviewsId,accessToken),HttpStatus.OK);
+
     }
     @DeleteMapping("/collections/{id}")
-    public String del_collections(@PathVariable("id") Long id){
-        return "asd";
+    public ResponseEntity<?> del_collections(@PathVariable("id") Long interviewsId,HttpServletRequest request)
+    {
+        boolean success;
+        String accessToken;
+        ResponseForm responseForm = new ResponseForm();
+        try {
+            accessToken = request.getHeader("authentication");
+        } catch (Exception e) {
+            responseForm.setMessage("컬렉션 삭제하기 : 로그인이 만료되었습니다.(accessToken)");
+            return new ResponseEntity<>(responseForm, HttpStatus.UNAUTHORIZED);
+        }
+        if (collectionsService.deleteCollections(accessToken,interviewsId)){
+            responseForm.setMessage("컬렉션을 삭제하였습니다..");
+            return new ResponseEntity<>(responseForm,HttpStatus.OK);
+        }
+        else{
+            responseForm.setMessage("컬렉션 삭제하기 : 삭제하지 못했습니다.");
+            return new ResponseEntity<>(responseForm,HttpStatus.OK);
+        }
     }
 }
 
