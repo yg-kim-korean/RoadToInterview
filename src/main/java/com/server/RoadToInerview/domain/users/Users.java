@@ -36,7 +36,7 @@ public class Users extends BaseEntity {
 
     private String salt;
 
-    private boolean emailauth;
+    private Long emailauth;
 
     private boolean manager;
 

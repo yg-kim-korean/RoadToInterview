@@ -1,7 +1,7 @@
 package com.server.RoadToInerview.controller;
 
 import com.server.RoadToInerview.configuration.JWTUtil;
-import com.server.RoadToInerview.domain.*;
+import com.server.RoadToInerview.domain.ResponseForm;
 import com.server.RoadToInerview.domain.users.*;
 import com.server.RoadToInerview.service.CollectionsService;
 import com.server.RoadToInerview.service.UsersService;
@@ -191,8 +191,21 @@ public class UserController {
         }
     }
     @PostMapping("/oauth")
-    public String oauth(){
-        return "asd";
+    public ResponseEntity<?> oauth(@RequestBody UserOauthLoginForm userOauthLoginForm,HttpServletResponse response) {
+        ResponseForm responseForm = new ResponseForm();
+        Users users = usersService.oauthCreateorLogin(userOauthLoginForm);
+        if (Objects.isNull(users)){
+            responseForm.setMessage("로그인 : 일치하는 유저 정보가 없습니다.");
+            return new ResponseEntity<>(responseForm,HttpStatus.NOT_FOUND);
+        }
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8 ));
+        String accessToken = JWTUtil.makeAuthToken(users);
+        String refToken = JWTUtil.makeRefreshToken(users);
+        headers.set("authentication", "bearer "+ accessToken);
+        Cookie cookie = new Cookie("refreshToken",refToken);
+        response.addCookie(cookie);
+        return new ResponseEntity<>(users,headers,HttpStatus.OK);
     }
     @PostMapping("/likes/{id}")
     public String likes(@PathVariable("id") Long id){

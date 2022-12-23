@@ -2,6 +2,7 @@ package com.server.RoadToInerview.service;
 
 import com.server.RoadToInerview.configuration.JWTUtil;
 import com.server.RoadToInerview.configuration.VerifyResult;
+import com.server.RoadToInerview.domain.users.UserOauthLoginForm;
 import com.server.RoadToInerview.domain.users.UserPutForm;
 import com.server.RoadToInerview.domain.users.Users;
 import com.server.RoadToInerview.domain.users.UsersTokens;
@@ -91,5 +92,9 @@ public class UsersService {
         }
 
         return usersTokens;
+    }
+    @Transactional
+    public Users oauthCreateorLogin(UserOauthLoginForm userOauthLoginForm){
+        return new Users();
     }
 }
