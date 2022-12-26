@@ -95,6 +95,20 @@ public class UsersService {
     }
     @Transactional
     public Users oauthCreateorLogin(UserOauthLoginForm userOauthLoginForm){
-        return new Users();
+        Users users = usersRepository.findByEmail(userOauthLoginForm.getEmail());
+        if (Objects.isNull(users)){
+            Users newUser = new Users();
+            newUser.setEmail(userOauthLoginForm.getEmail());
+            newUser.setManager(false);
+            newUser.setSalt("asdf");
+            newUser.setEmailauth(userOauthLoginForm.getEmailauth());
+            newUser.setSrc(userOauthLoginForm.getSrc());
+            newUser.setNickname(userOauthLoginForm.getNickname());
+            users = usersRepository.save(newUser);
+        }
+        else if (users.getEmailauth() != userOauthLoginForm.getEmailauth()){
+            return null;
+        }
+        return users;
     }
 }

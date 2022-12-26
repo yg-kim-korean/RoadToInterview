@@ -26,7 +26,7 @@ public class UserServiceTest {
         users.setEmail("kyg0752@naver.com");
         users.setPassword("1234");
         users.setSalt("1234");
-        users.setEmailauth(false);
+        users.setEmailauth(1L);
         users.setManager(true);
         users.setSrc("1234");
 

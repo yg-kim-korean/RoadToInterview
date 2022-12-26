@@ -24,7 +24,7 @@ public class JWTRequestTest extends WebIntegrationTest {
         users.setEmail("kyg0752@naver.com");
         users.setPassword("1234");
         users.setSalt("1234");
-        users.setEmailauth(false);
+        users.setEmailauth(0L);
         users.setManager(true);
         users.setSrc("1234");
 
