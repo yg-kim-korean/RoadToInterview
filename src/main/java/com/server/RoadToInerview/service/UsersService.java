@@ -1,6 +1,7 @@
 package com.server.RoadToInerview.service;
 
 import com.server.RoadToInerview.configuration.JWTUtil;
+import com.server.RoadToInerview.configuration.MailHandler;
 import com.server.RoadToInerview.configuration.VerifyResult;
 import com.server.RoadToInerview.domain.users.UserOauthLoginForm;
 import com.server.RoadToInerview.domain.users.UserPutForm;
@@ -9,6 +10,8 @@ import com.server.RoadToInerview.domain.users.UsersTokens;
 import com.server.RoadToInerview.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -17,6 +20,11 @@ import java.util.Objects;
 @Service
 @RequiredArgsConstructor
 public class UsersService {
+    private static String from_email;
+    @Value("${spring.mail.username}")
+    public void setFrom_email(String from_email) {
+        UsersService.from_email = from_email+"@gmail.com";
+    }
     @Autowired
     private UsersRepository usersRepository;
 
@@ -111,4 +119,22 @@ public class UsersService {
         }
         return users;
     }
+    @Transactional
+    public void sendEmail(String email){
+        JavaMailSender javaMailSender = null;
+        try {
+            MailHandler mailHandler = new MailHandler(javaMailSender);
+            mailHandler.setFrom(email);
+            mailHandler.setTo(email);
+            mailHandler.setSubject("Road To Interview 메일 인증");
+            String htmlContent = "<p>" + "Road To Interview 메일 인증" +"</p>";
+            mailHandler.setText(htmlContent,true);
+            mailHandler.send();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
+
 }
