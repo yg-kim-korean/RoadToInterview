@@ -102,7 +102,7 @@ public class UsersService {
         return usersTokens;
     }
     @Transactional
-    public Users oauthCreateorLogin(UserOauthLoginForm userOauthLoginForm){
+    public Users oauthCreateOrLogin(UserOauthLoginForm userOauthLoginForm){
         Users users = usersRepository.findByEmail(userOauthLoginForm.getEmail());
         if (Objects.isNull(users)){
             Users newUser = new Users();

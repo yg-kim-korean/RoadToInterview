@@ -193,7 +193,7 @@ public class UserController {
     @PostMapping("/oauth")
     public ResponseEntity<?> oauth(@RequestBody UserOauthLoginForm userOauthLoginForm,HttpServletResponse response) {
         ResponseForm responseForm = new ResponseForm();
-        Users users = usersService.oauthCreateorLogin(userOauthLoginForm);
+        Users users = usersService.oauthCreateOrLogin(userOauthLoginForm);
         if (Objects.isNull(users)){
             responseForm.setMessage("Oauth 로그인 : 일치하는 유저 정보가 없습니다.");
             return new ResponseEntity<>(responseForm,HttpStatus.NOT_FOUND);

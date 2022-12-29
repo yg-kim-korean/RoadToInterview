@@ -16,6 +16,14 @@ public class JWTUtil {
     private static final long AUTH_TIME = 20*60; //60초
     private static final long REFRESH_TIME = 24*60*60*7; //일주일
 
+    @Value("${data.refresh-key}")
+    public void setRefresh_key(String refresh_key) {
+        JWTUtil.refresh_key = refresh_key;
+    }
+    @Value("${data.secret-key}")
+    public void setSecret_key(String secret_key) {
+        JWTUtil.secret_key = secret_key;
+    }
     public static String makeAuthToken(Users users){
 
         return JWT.create().withSubject(users.getEmail())
@@ -50,12 +58,4 @@ public class JWTUtil {
 
     }
 
-    @Value("${data.refresh-key}")
-    public void setRefresh_key(String refresh_key) {
-        JWTUtil.refresh_key = refresh_key;
-    }
-    @Value("${data.secret-key}")
-    public void setSecret_key(String secret_key) {
-        JWTUtil.secret_key = secret_key;
-    }
 }
