@@ -8,6 +8,7 @@ import com.server.RoadToInerview.domain.users.UserPutForm;
 import com.server.RoadToInerview.domain.users.Users;
 import com.server.RoadToInerview.domain.users.UsersTokens;
 import com.server.RoadToInerview.repository.UsersRepository;
+import com.server.RoadToInerview.security.SHA512PasswordEncoder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -50,9 +51,9 @@ public class UsersService {
     }
     @Transactional
     public Users login(String email, String password){
-
-        Users users = usersRepository.findUsersByEmailAndPassword(email,password);
-        if (!Objects.isNull(users)){
+        SHA512PasswordEncoder encoder = new SHA512PasswordEncoder();
+        Users users = usersRepository.findByEmail(email);
+        if (encoder.matches(password,users.getPassword())){
             return users;
         }
         return null;

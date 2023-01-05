@@ -3,6 +3,7 @@ package com.server.RoadToInerview.controller;
 import com.server.RoadToInerview.configuration.JWTUtil;
 import com.server.RoadToInerview.domain.ResponseForm;
 import com.server.RoadToInerview.domain.users.*;
+import com.server.RoadToInerview.security.SHA512PasswordEncoder;
 import com.server.RoadToInerview.service.CollectionsService;
 import com.server.RoadToInerview.service.UsersService;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +39,7 @@ public class UserController {
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody Users users)
     {
+        SHA512PasswordEncoder encoder = new SHA512PasswordEncoder();
         ResponseForm responseForm = new ResponseForm();
         String message = "";
         Users newUsers;
@@ -52,6 +54,7 @@ public class UserController {
             return new ResponseEntity<>(responseForm,HttpStatus.INTERNAL_SERVER_ERROR);
         }
         String check = usersService.checking(users.getEmail(), users.getNickname());
+        users.setPassword(encoder.encode(users.getPassword()));
         if( check.equals("no")){
             newUsers = usersService.signup(users);
             return new ResponseEntity<>(newUsers,HttpStatus.CREATED);
@@ -70,6 +73,7 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserLoginForm userLoginForm, HttpServletResponse response){
+
         ResponseForm responseForm = new ResponseForm();
         LoginResultForm loginResultForm = new LoginResultForm();
         Users users = usersService.login(userLoginForm.getEmail(),userLoginForm.getPassword());

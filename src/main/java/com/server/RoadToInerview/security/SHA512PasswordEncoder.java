@@ -6,7 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.security.MessageDigest;
 
-public class SHA512PaswordEncoder implements PasswordEncoder {
+public class SHA512PasswordEncoder implements PasswordEncoder {
     private final Log logger = LogFactory.getLog(getClass());
     @Override
     public String encode(CharSequence rawPassword) {
@@ -36,6 +36,7 @@ public class SHA512PaswordEncoder implements PasswordEncoder {
     }
     private String getSHA512Pw(CharSequence rawPassword){
         MessageDigest md = null;
+
         try {
             md = MessageDigest.getInstance("SHA-512");
             md.update(rawPassword.toString().getBytes());
