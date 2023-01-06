@@ -162,9 +162,9 @@ public class UserController {
         return new ResponseEntity<>(users, headers, HttpStatus.OK);
     }
     @GetMapping("/auth") //email 인증
-    public ResponseEntity<?> email_auth(@RequestBody String email,HttpServletResponse response, HttpServletRequest request){
+    public ResponseEntity<?> email_auth(@RequestParam("email") String email,@RequestParam("token") String token,HttpServletResponse response, HttpServletRequest request){
         ResponseForm responseForm = new ResponseForm();
-
+        usersService.checkEmail(email,token);
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @PutMapping("/users")//유저 수정

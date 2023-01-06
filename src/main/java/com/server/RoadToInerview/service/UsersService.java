@@ -1,7 +1,6 @@
 package com.server.RoadToInerview.service;
 
 import com.server.RoadToInerview.configuration.JWTUtil;
-import com.server.RoadToInerview.configuration.MailHandler;
 import com.server.RoadToInerview.configuration.VerifyResult;
 import com.server.RoadToInerview.domain.users.UserOauthLoginForm;
 import com.server.RoadToInerview.domain.users.UserPutForm;
@@ -15,8 +14,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import javax.transaction.Transactional;
 import java.util.Objects;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -28,7 +31,8 @@ public class UsersService {
     }
     @Autowired
     private UsersRepository usersRepository;
-
+    @Autowired
+    JavaMailSender javaMailSender;
     public String checking(String email, String nickname){
         Users check_email = usersRepository.findByEmail(email);
         Users check_nickname = usersRepository.findByNickname(nickname);
@@ -46,7 +50,39 @@ public class UsersService {
     }
     @Transactional
     public Users signup(Users users){
+        Random rand = new Random(System.nanoTime());
+        StringBuilder sb = new StringBuilder();
+        // 총 20문자 길이의 난수를 생성
+        for(int i=0; i<20; i++) {
+            // 랜덤으로 true 또는 false 생성
+            if(rand.nextBoolean()) {
+                sb.append(rand.nextInt(10)); //0~9까지 난수 생성
+            } else {
+                sb.append((char)(rand.nextInt(26)+97)); //알파벳 난수 생성
+            }
+        }
+        users.setSalt(rand.toString());
         Users newUsers = usersRepository.save(users);
+        MimeMessage message = javaMailSender.createMimeMessage();
+
+        try {
+
+            message.setSubject("Road To Interview 메일 인증");
+            String htmlContent = "<p>" + "Road To Interview 메일 인증" +"</p>"+"<p>아래의 링크를 클릭해주세요 !</p>" +
+                    "<a href='https://localhost.ga/auth?email=" +
+                    users.getEmail() +
+                    "&token=" +
+                    rand +
+                    "'>Email 인증하기</a>";
+            message.setText(htmlContent,"UTF-8","html");
+            //    message.setFrom("RoadToInterview@RoadToInterview.com");
+            //    message.setFrom(""); from 값을 설정하지 않으면 application.yml의 username값이 설정됩니다.
+            message.addRecipients(Message.RecipientType.TO,users.getEmail());
+            javaMailSender.send(message);
+        }
+        catch (MessagingException e){
+            e.printStackTrace();
+        }
         return newUsers;
     }
     @Transactional
@@ -121,19 +157,16 @@ public class UsersService {
         return users;
     }
     @Transactional
-    public void sendEmail(String email){
-        JavaMailSender javaMailSender = null;
-        try {
-            MailHandler mailHandler = new MailHandler(javaMailSender);
-            mailHandler.setFrom(email);
-            mailHandler.setTo(email);
-            mailHandler.setSubject("Road To Interview 메일 인증");
-            String htmlContent = "<p>" + "Road To Interview 메일 인증" +"</p>";
-            mailHandler.setText(htmlContent,true);
-            mailHandler.send();
-        }catch (Exception e){
-            e.printStackTrace();
+    public void checkEmail(String email, String salt){
+        Users users = usersRepository.findByEmail(email);
+        if (users.getSalt() == salt){
+            users.setEmailauth(1L);
+            usersRepository.save(users);
         }
+        else{
+
+        }
+
 
     }
 
