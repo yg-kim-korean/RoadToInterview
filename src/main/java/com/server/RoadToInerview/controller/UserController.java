@@ -11,7 +11,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,29 +27,18 @@ public class UserController {
     private final UsersService usersService;
     private final CollectionsService collectionsService;
 
-    @PreAuthorize("isAuthenticated()")
-    @GetMapping("/greeting")
-    public String greeting(){
-        return "hello";
-    }
-
-
-
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody Users users)
     {
         SHA512PasswordEncoder encoder = new SHA512PasswordEncoder();
         ResponseForm responseForm = new ResponseForm();
-        String message = "";
         Users newUsers;
         if (null== users.getEmail() || users.getEmail().isEmpty() ){
-            message = "회원 가입 : 이메일 체크 Server Error";
-            responseForm.setMessage(message);
+            responseForm.setMessage("회원 가입 : 이메일 체크 Server Error");
             return new ResponseEntity<>(responseForm,HttpStatus.INTERNAL_SERVER_ERROR);
         }
         else if (null== users.getNickname() || users.getNickname().isEmpty() ){
-            message = "회원 가입 : 닉네임 체크 Server Error";
-            responseForm.setMessage(message);
+            responseForm.setMessage("회원 가입 : 닉네임 체크 Server Error");
             return new ResponseEntity<>(responseForm,HttpStatus.INTERNAL_SERVER_ERROR);
         }
         String check = usersService.checking(users.getEmail(), users.getNickname());
@@ -133,10 +121,10 @@ public class UserController {
             responseForm.setMessage("토큰 재발급 : 로그인이 만료되었습니다.(refreshToken)");
             return new ResponseEntity<>(responseForm, HttpStatus.UNAUTHORIZED);
         }
-        for (int i = 0; i < cookie.length; i++) {
+        for (Cookie value : cookie) {
 
-            if (cookie[i].getName().equals("refreshToken")) {
-                refreshToken = cookie[i].getValue();
+            if (value.getName().equals("refreshToken")) {
+                refreshToken = value.getValue();
             }
             if (refreshToken.isEmpty()) {
                 responseForm.setMessage("토큰 재발급 : 로그인이 만료되었습니다.(refreshToken)");
@@ -162,13 +150,13 @@ public class UserController {
         return new ResponseEntity<>(users, headers, HttpStatus.OK);
     }
     @GetMapping("/auth") //email 인증
-    public ResponseEntity<?> email_auth(@RequestParam("email") String email,@RequestParam("token") String token,HttpServletResponse response, HttpServletRequest request){
+    public ResponseEntity<?> email_auth(@RequestParam("email") String email, @RequestParam("token") String token){
         ResponseForm responseForm = new ResponseForm();
         usersService.checkEmail(email,token);
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @PutMapping("/users")//유저 수정
-    public ResponseEntity<?> put_user(@RequestBody UserPutForm userPutForm, HttpServletRequest request, HttpServletResponse response){
+    public ResponseEntity<?> put_user(@RequestBody UserPutForm userPutForm, HttpServletRequest request){
         ResponseForm responseForm = new ResponseForm();
         Users newUsers;
         try {
@@ -179,15 +167,15 @@ public class UserController {
             return new ResponseEntity<>(responseForm, HttpStatus.UNAUTHORIZED);
         }
         String check = usersService.checking(userPutForm.getEmail(), userPutForm.getNickname());
-        if( check == "no" ){
+        if(Objects.equals(check, "no")){
             newUsers = usersService.modify(userPutForm);
             return new ResponseEntity<>(newUsers,HttpStatus.CREATED);
         }
         else {
-            if (check == "email") {
+            if (Objects.equals(check, "email")) {
                 responseForm.setNickName("false");
                 responseForm.setMessage("회원 가입 : 이미 존재하는 닉네임입니다.");
-            } else if (check == "nickname") {
+            } else if (Objects.equals(check, "nickname")) {
                 responseForm.setEmail("false");
                 responseForm.setMessage("회원 가입 : 이미 존재하는 이메일입니다.");
             }
@@ -248,7 +236,7 @@ public class UserController {
         }
         else{
             responseForm.setMessage("컬렉션 삭제하기 : 삭제하지 못했습니다.");
-            return new ResponseEntity<>(responseForm,HttpStatus.OK);
+            return new ResponseEntity<>(responseForm,HttpStatus.CONFLICT);
         }
     }
 }

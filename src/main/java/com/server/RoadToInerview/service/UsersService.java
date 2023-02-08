@@ -62,6 +62,7 @@ public class UsersService {
             }
         }
         users.setSalt(rand.toString());
+        users.setEmailauth(0L);
         Users newUsers = usersRepository.save(users);
         MimeMessage message = javaMailSender.createMimeMessage();
 
@@ -145,7 +146,7 @@ public class UsersService {
             Users newUser = new Users();
             newUser.setEmail(userOauthLoginForm.getEmail());
             newUser.setManager(false);
-            newUser.setSalt("asdf");
+            newUser.setSalt("NoneUse");
             newUser.setEmailauth(userOauthLoginForm.getEmailauth());
             newUser.setSrc(userOauthLoginForm.getSrc());
             newUser.setNickname(userOauthLoginForm.getNickname());
@@ -163,11 +164,6 @@ public class UsersService {
             users.setEmailauth(1L);
             usersRepository.save(users);
         }
-        else{
-
-        }
-
-
     }
 
 
